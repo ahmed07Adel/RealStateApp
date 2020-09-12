@@ -1,0 +1,49 @@
+﻿
+@model WebApplication2.viewmodels.Homedetailsviewmodel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "~/views/home/shared/_Layout.cshtml";
+    ViewBag.PageTitle = "Employee list";
+    var PhotoPath = "~/images/" + (Model.Employee.Photos ?? "download.jpg");
+}
+
+<div class="container">
+    <div class= "row justify-content-center col-md-11">
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>@Model.Employee.Name</h3>
+
+                </div>
+                <div class="card-body text-center">
+                    <img class="card-img-top" src="@PhotoPath" asp-append-version="true" style="height:200px; width:auto" />
+
+                    <h4>Property ID : @Model.Employee.Id</h4>
+                    <h4>User email : @Model.Employee.Email</h4>
+                    <h4>Property capacity : @Model.Employee.Capacity</h4>
+                    <h4>Property Price : @Model.Employee.Price</h4>
+                    <h4>Property Location : @Model.Employee.Location</h4>
+
+
+
+
+
+
+                </div>
+                <div class="card-footer text-center">
+                    <a  class="btn btn-primary" asp-action="view" asp-controller="home" asp-route-id="@Model.Employee.Id">view</a>
+                    <a  class="btn btn-primary"  asp-action="edit" asp-controller="home" asp-route-id="@Model.Employee.Id">Edit</a>
+                    <a  class="btn btn-primary" asp-action="Delete" asp-controller="home" asp-route-id="@Model.Employee.Id">Delete</a>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/CustomScript"></script>
+}

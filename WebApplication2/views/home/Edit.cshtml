@@ -1,0 +1,91 @@
+﻿@model WebApplication2.viewmodels.EmployeeEdit
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Edit Employee";
+}
+
+@{
+    Layout = "~/views/home/shared/_Layout.cshtml";
+}
+
+
+<form asp-controller="home" asp-action="Edit" method="post" class="mt-4">
+    <input hidden asp-for="Id" />
+    <br>
+    <br>
+
+    <div class="form-group row">
+        <label asp-for="Location" class="col-sm-2 col-form-label">Location</label>
+        <div class="col-sm-10">
+            <input asp-for="Location" class="form-control" placeholder="Location" />
+            <span asp-validation-for="Location"></span>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Price" class="col-sm-2 col-form-label">Price</label>
+        <div class="col-sm-10">
+            <input asp-for="Price" class="form-control" placeholder="Price" />
+            <span asp-validation-for="Price"></span>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Capacity" class="col-sm-2 col-form-label">Capacity</label>
+        <div class="col-sm-10">
+            <input asp-for="Capacity" class="form-control" placeholder="Capacity" />
+            <span asp-validation-for="Capacity"></span>
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+            <input asp-for="Name" class="form-control" placeholder="Name" />
+            <span asp-validation-for="Name"></span>
+
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label asp-for="Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input asp-for="Email" class="form-control" placeholder="Email" />
+            <span asp-validation-for="Email"></span>
+
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label asp-for="Photos" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input multiple asp-for="Photos" class="form-control custom-file-input" />
+                <label class="custom-file-label">
+                    Choose File...
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a class="btn btn-primary" asp-controller="Home" asp-action="index">Cancel</a>
+    @section scripts {
+        <script>
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var filename = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(filename);
+
+                });
+        </script>
+    }
+
+</form>

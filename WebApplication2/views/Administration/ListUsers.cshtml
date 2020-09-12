@@ -1,0 +1,63 @@
+﻿<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <Script src="~/lib/jquery/jquery.js"></Script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+</head>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<WebApplication2.Model.AppUsers>
+@{
+    ViewBag.title = "List Users";
+}
+<h1>All Users</h1>
+@if (Model.Any())
+{
+    <a class="btn btn-primary" style="width:auto" asp-controller="Account" asp-action="Register">Add New Users</a>
+    foreach(var user in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                User ID: @user.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    @user.UserName
+                </h5>
+
+            </div>
+            <div class="card-footer">
+                @*<form action="DeleteUser" asp-route-id="@user.Id" method="post">
+                    <div class="card-footer">
+                        <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id">
+                            Edit
+                        </a>
+
+
+                    </div>
+                </form>*@
+                <button type="submit" class="btn btn-danger">Delete</button>
+
+            </div>
+        </div>
+    }
+
+}
+
+else
+{
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Use The Button Below To Create A User
+            </h5>
+            <a class="btn btn-primary" style="width:auto" asp-controller="Account" asp-action="Register">Add New Users</a>
+        </div>
+
+
+    </div>
+}

@@ -1,0 +1,87 @@
+﻿
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+</head>
+@model WebApplication2.viewmodels.EmployeeCreateViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewBag.Title = "create Empolyee";
+}
+@{ 
+    Layout = "~/views/home/shared/_Layout.cshtml";
+}
+<br>
+<br>
+<form enctype="multipart/form-data" asp-controller="home" asp-action="Create" method="post" class="mt-4">
+
+    <div class="form-group row">
+        <label asp-for="Location" class="col-sm-2 col-form-label">Location</label>
+        <div class="col-sm-10">
+            <input asp-for="Location" class="form-control" placeholder="Location" />
+            <span asp-validation-for="Location"></span>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Price" class="col-sm-2 col-form-label">Price</label>
+        <div class="col-sm-10">
+            <input asp-for="Price" class="form-control" placeholder="Price" />
+            <span asp-validation-for="Price"></span>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Capacity" class="col-sm-2 col-form-label">Capacity</label>
+        <div class="col-sm-10">
+            <input asp-for="Capacity" class="form-control" placeholder="Capacity" />
+            <span asp-validation-for="Capacity"></span>
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+            <input asp-for="Name" class="form-control" placeholder="Name" />
+            <span asp-validation-for="Name"></span>
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input asp-for="Email" class="form-control" placeholder="Email" />
+            <span asp-validation-for="Email"></span>
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Photos" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input multiple asp-for="Photos" class="form-control custom-file-input" />
+                <label class="custom-file-label">
+                    Choose File...
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <button type="submit">CREATE</button>
+    @section scripts {
+        <script>
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    console.log($("this"))
+                                            //    var FileName = $(this).val().split("\\").pop();
+                                            //$(this).next('.custom-file-label').html(FileName);  });
+        </script>
+    }
+</form>
