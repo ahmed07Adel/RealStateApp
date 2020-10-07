@@ -17,7 +17,7 @@ namespace WebApplication2.Model
         public string Email { get; set; }
         public string Photos { get; set; }
         public int Price { get; set; }
-        public int Capacity { get; set; }
+        public int Capcity { get; set; }
         public string Location { get; set; }
 
 

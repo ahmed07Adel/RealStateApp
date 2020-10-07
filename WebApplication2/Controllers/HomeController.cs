@@ -19,30 +19,55 @@ namespace WebApplication2.controller
     public class HomeController : Controller
     {
         private readonly IEmployeeRepository _employeeRespository;
+        private readonly Appdbcontext context;
         private readonly IHostingEnvironment hostingEnvironment;
-        public HomeController(IEmployeeRepository employeeRespository, IHostingEnvironment hostingEnvironment)
+        public HomeController(IEmployeeRepository employeeRespository, IHostingEnvironment hostingEnvironment, Appdbcontext context)
         {
+            this.context = context;
             this.hostingEnvironment = hostingEnvironment;
             _employeeRespository = employeeRespository;
 
         }
-        [HttpGet]
-        public IActionResult Search(string searchTerm)
-        {
-            var  Employee = _employeeRespository.Search(searchTerm);
-            return null;
 
-
-        }
 
         [Route("")]
-       [Route("home")]
-       [Route("home/Index")]
-       [AllowAnonymous]
+        [Route("home")]
+        [Route("home/Index")]
+        [AllowAnonymous]
         public ViewResult Index()
         {
             return View();
         }
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> Search(string Location, int Capcity)
+        //{
+        //    try
+        //    {
+        //        var result = await _employeeRespository.Search(Location, Capcity);
+        //        if (result.Any())
+        //        {
+
+        //            return View(result.ToList());
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        return View("NotFound");
+        //    }
+
+        //    return NotFound();
+
+        //}
+        //[HttpPost]
+        //public string Search(string Location, int Capcity, bool notused)
+        //{
+        //    return "From [HttpPost]Search: filter on " + Location + Capcity;
+
+        //}
+
 
         [Route("home/Details/{id?}")]
         public ViewResult Details(int? id)
@@ -63,11 +88,27 @@ namespace WebApplication2.controller
         }
 
         [Route("home/Property")]
-        public ViewResult Property()
+        public async Task<ActionResult> Property(string Location, int Capcity, Employee employee)
         {
-            var model = _employeeRespository.Getallemployee();
-            return View(model);
-            
+            IQueryable<Employee> query = from p in context.Employees select p;
+
+
+
+            if (!string.IsNullOrEmpty(Location))
+            {
+                query = query.Where(e => e.Location.Contains(Location));
+            }
+            if (Capcity > 0)
+            {
+                query = query.Where(e => e.Capcity == employee.Capcity);
+            }
+            return View(await query.ToListAsync());
+
+
+            //var model = _employeeRespository.Getallemployee();
+            //return View(model);
+
+
         }
 
 
@@ -86,7 +127,7 @@ namespace WebApplication2.controller
                 Id = employee.Id,
                 Email = employee.Email,
                 Name = employee.Name,
-                Capacity = employee.Capacity,
+                Capacity = employee.Capcity,
                 Location =employee.Location,
                 Price = employee.Price
               
@@ -104,7 +145,7 @@ namespace WebApplication2.controller
                 employee.Name = model.Name;
                 employee.Id = model.Id;
                 employee.Email = model.Email;
-                employee.Capacity = model.Capacity;
+                employee.Capcity = model.Capacity;
                 employee.Location = model.Location;
                 employee.Price = model.Price;
 
@@ -114,7 +155,7 @@ namespace WebApplication2.controller
                     Email = employee.Email,
                     Id = employee.Id,
                     Photos = employee.Photos,
-                    Capacity = employee.Capacity,
+                    Capcity = employee.Capcity,
                     Location = employee.Location,
                     Price = employee.Price
 
@@ -165,7 +206,7 @@ namespace WebApplication2.controller
                     Name = model.Name,
                     Email =model.Email,
                     Photos =UniqueFile,
-                    Capacity = model.Capacity,
+                    Capcity = model.Capacity,
                     Location = model.Location,
                     Price = model.Price
 

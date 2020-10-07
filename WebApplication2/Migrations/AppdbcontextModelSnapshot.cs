@@ -158,9 +158,6 @@ namespace WebApplication2.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -225,7 +222,7 @@ namespace WebApplication2.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Capacity")
+                    b.Property<int>("Capcity")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -253,7 +250,7 @@ namespace WebApplication2.Migrations
                         new
                         {
                             Id = 1,
-                            Capacity = 200,
+                            Capcity = 200,
                             Email = "marko@gmail.com",
                             Location = "Mdint nasr",
                             Name = "sayed",
@@ -262,7 +259,7 @@ namespace WebApplication2.Migrations
                         new
                         {
                             Id = 2,
-                            Capacity = 200,
+                            Capcity = 200,
                             Email = "12334@gmail.com",
                             Location = "Mdint nasr",
                             Name = "marko",
@@ -270,12 +267,41 @@ namespace WebApplication2.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WebApplication2.Model.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -284,7 +310,7 @@ namespace WebApplication2.Migrations
                     b.HasOne("WebApplication2.Model.AppUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -293,7 +319,7 @@ namespace WebApplication2.Migrations
                     b.HasOne("WebApplication2.Model.AppUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -302,13 +328,13 @@ namespace WebApplication2.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("WebApplication2.Model.AppUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -317,8 +343,16 @@ namespace WebApplication2.Migrations
                     b.HasOne("WebApplication2.Model.AppUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApplication2.Model.Message", b =>
+                {
+                    b.HasOne("WebApplication2.Model.AppUsers", "Sender")
+                        .WithMany("Messages")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

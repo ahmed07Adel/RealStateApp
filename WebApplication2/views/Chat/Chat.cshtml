@@ -1,0 +1,121 @@
+﻿<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <Script src="~/lib/jquery/jquery.js"></Script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <Script src="~/lib/jquery/jquery.js"></Script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/navbar-top-fixed/">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <Script src="~/lib/jquery/jquery.js"></Script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+</head>
+
+
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<WebApplication2.Model.Message>
+@{
+    Layout = "~/views/home/shared/_Layout.cshtml";
+    ViewData["Title"] = "Chat";
+    var userName = User.Identity.Name;
+}
+<br />
+<br />
+<div class="jumbotron bg-light">
+    <h2 class="text-center text-primary">
+        <i class="fab fa-facebook-messenger"></i>&nbsp; Public Talk
+    </h2>
+    <div class="row">
+        <div class="col-md-12" id="chat">
+            @if (Model != null)
+            {
+                @foreach (var message in Model.OrderBy(m => m.When))
+                {
+                    string containerClass, timePosition, textAlign, contcolor, offset;
+                    if (userName == message.UserName)
+                    {
+                        containerClass = "container darker";
+                        timePosition = "time-right text-light";
+                        textAlign = "text-right text-white";
+                        contcolor = "bg-primary";
+                        offset = "col-md-6 offset-md-6";
+                    }
+                    else
+                    {
+                        containerClass = "container";
+                        timePosition = "time-left";
+                        textAlign = "text-left";
+                        contcolor = "bg-light";
+                        offset = "";
+                    }
+                    <div class="row">
+                        <div class="@offset">
+                            <div class="@containerClass @contcolor">
+                                <p class="sender" @message.UserName></p>
+                                <p class="@textAlign">@message.Text</p>
+                                <span class="@timePosition">@message.When.ToString()</span>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-md-12">
+            <form asp-action="Create" asp-controller="Chat"
+                  data-ajax-begin="clearInputField" data-ajax-complete=""
+                  data-ajax-failure="alert('Fail')" data-ajax-success="sendMessage"
+                  data-ajax="true" data-ajax-method="Post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="submit" value="Send" id="SubmitButton" class="btn btn-primary" />
+                </div>
+                <input type="hidden" value="@userName" name="username" />
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <script>
+    const username = "@ViewBag.CurrentUserName";
+    </script>
+}
+
+
+@section scripts{
+    <script src="~/signalr/signalr.min.js"></script>
+    <script src="~/lib/jquery/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/signalrReqHandler.js"></script>
+
+}

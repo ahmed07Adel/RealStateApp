@@ -48,17 +48,7 @@ namespace WebApplication2.Model
             return context.Employees.Find(id);
         }
 
-        public IEnumerable<Employee> Search(string SearchTerm)
-        {
-            if (string.IsNullOrEmpty(SearchTerm))
-            {
-                return context.Employees.ToList();
-            }
-            else
-            {
-                return context.Employees.Where(p => p.Location.Contains(SearchTerm));
-            }
-        }
+     
 
         public Employee Update(Employee changemployee)
         {
@@ -67,6 +57,22 @@ namespace WebApplication2.Model
             context.SaveChanges();
             return changemployee;
         }
-      
+
+        //public async Task<IEnumerable<Employee>> Search(string Location, int Capcity)
+        //{
+        //    IQueryable<Employee> query = from p in context.Employees select p;
+
+
+
+        //    if (!string.IsNullOrEmpty(Location))
+        //    {
+        //        query = query.Where(e => e.Location.Contains(Location));
+        //    }
+        //    if (Capcity >= 0)
+        //    {
+        //        query = query.Where(e => e.Capcity == Capcity);
+        //    }
+        //    return await query.ToListAsync();
+        //}
     }
 }

@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using WebApplication2.Hubs;
 
 namespace WebApplication2
 {
@@ -33,6 +34,7 @@ namespace WebApplication2
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
             services.AddIdentity<AppUsers, IdentityRole>(
                 options => {
                     options.Password.RequiredLength = 6;
@@ -50,8 +52,9 @@ namespace WebApplication2
                 
             }).AddXmlDataContractSerializerFormatters();
             services.AddScoped< IEmployeeRepository, SQLemployeeresporitory > ();
-           
+            services.AddIdentityCore<AppUsers>();
             services.AddMvc();
+
             var x = _config.GetConnectionString("employeedbconnection");
             services.AddDbContext<Appdbcontext>(
                 options => options.UseSqlServer(_config.GetConnectionString("employeedbconnection")));
@@ -67,11 +70,19 @@ namespace WebApplication2
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
+            //app.UseSignalR(routes =>
+            //{
+            //    routes.MapHub<ChatHub>("/Chat/Chat");
+            //});
+
+
             app.UseMvc(routes => {
 
                 routes.MapRoute("default","{controller=home}/{action=Index}/{id?}");
+
 
             });
         }

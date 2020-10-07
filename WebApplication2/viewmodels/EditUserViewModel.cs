@@ -20,7 +20,6 @@ namespace WebApplication2.viewmodels
         public string Id { get; set; }
         [Required]
         public string UserName { get; set; }
-        public string City { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }

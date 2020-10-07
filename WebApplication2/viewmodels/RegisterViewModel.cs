@@ -28,6 +28,5 @@ namespace WebApplication2.viewmodels
         [Compare("Password", ErrorMessage = "Password and Confirm Password doesnot match")]
         public string ConfirmPassword { get; set; }
 
-        public string City { get; set; }
     }
 }

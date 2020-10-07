@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WebApplication2.Model;
 using WebApplication2.viewmodels;
 
+
 namespace WebApplication2.Controllers
 {
     [Authorize(Roles = "admin")]
@@ -40,7 +41,6 @@ namespace WebApplication2.Controllers
             {
                 Id = user.Id,
                 UserName = user.UserName,
-                City = user.City,
                 Email = user.Email,
                 Claims = UserClaims.Select(e => e.Value).ToList()
 
@@ -50,6 +50,105 @@ namespace WebApplication2.Controllers
 
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(EditUserViewModel model)
+        {
+            var user = await usermanager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"this userID={model.Id} can not be found";
+                return View("NotFound");
+            }
+
+            else
+            {
+                user.Email = model.Email;
+                user.UserName = model.UserName;
+                var result = await usermanager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+                foreach(var Error in result.Errors)
+                {
+                    ModelState.AddModelError("", Error.Description);
+                }
+                return View(model);
+            }
+
+
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(EditUserViewModel model)
+        {
+            var user = await usermanager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"this userID={model.Id} can not be found";
+                return View("NotFound");
+            }
+
+            else
+            {
+                var result = await usermanager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View("ListUsers");
+            }
+
+            }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await rolemanager.FindByIdAsync(id);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role With userID= {id} can not be found";
+                return View("NotFound");
+            }
+
+            else
+            {
+
+                try
+                {
+                    var result = await rolemanager.DeleteAsync(role);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("ListRoles");
+                    }
+                    foreach (var Error in result.Errors)
+                    {
+                        ModelState.AddModelError("", Error.Description);
+                    }
+                    return View("ListRoles");
+                }
+                catch (Exception)
+                {
+                    ViewBag.ErrorTitle = $"{role.Name} is in use";
+                    ViewBag.ErrorMessage = $"{role.Name} can not be deleted there a user use it, if you want to delete this role please remove thr user in this role first";
+                    return View("Error");
+                }
+            }
+
+
+
+        }
+
+
 
 
         [HttpGet]
@@ -66,7 +165,7 @@ namespace WebApplication2.Controllers
                 {
                     Name = model.RoleName
                 };
-            IdentityResult result = await rolemanager.CreateAsync(identityRole);
+                IdentityResult result = await rolemanager.CreateAsync(identityRole);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("ListRoles", "Administration");

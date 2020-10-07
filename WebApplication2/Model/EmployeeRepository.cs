@@ -10,12 +10,11 @@ namespace WebApplication2.Model
 {
   public  interface IEmployeeRepository
     {
-        IEnumerable<Employee> Search(string SearchTerm);
-
         Employee GetEmployee(int Id);
-       IEnumerable<Employee>Getallemployee();
+        IEnumerable<Employee>Getallemployee();
         Employee Add(Employee employee);
         Employee Update(Employee changemployee);
         Employee Delete(int Id);
+        //Task<IEnumerable<Employee>> Search(string Location, int Capcity);
     }
 }

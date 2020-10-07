@@ -8,6 +8,11 @@ namespace WebApplication2.Model
 {
     public class AppUsers : IdentityUser
     {
-        public string City { get; set; }
+        public AppUsers()
+        {
+            Messages = new HashSet<Message>();
+        }
+        public virtual ICollection<Message> Messages { get; set; }
+
     }
 }

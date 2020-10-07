@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication2.Model
 {
-    public class MockEmloyee : IEmployeeRepository
+    public class MockEmloyee
     {
         private List<Employee> _employeelist;
         public MockEmloyee()
         {
             _employeelist = new List<Employee>()
             {
-            new Employee(){Id = 1, Name = "ahmed", Email = "1213@gmail", Capacity = 200, Location = "helioplis", Price = 100000},
-            new Employee(){ Id = 2, Name = "ali", Email = "1113@gmail", Capacity = 300, Location = "mdint nasr", Price = 300000 },
-            new Employee(){ Id = 3, Name = "mhmd", Email = "1513@gmail", Capacity = 200, Location = "alex", Price = 1500000 }
+            new Employee(){Id = 1, Name = "ahmed", Email = "1213@gmail", Capcity = 200, Location = "helioplis", Price = 100000},
+            new Employee(){ Id = 2, Name = "ali", Email = "1113@gmail", Capcity = 300, Location = "mdint nasr", Price = 300000 },
+            new Employee(){ Id = 3, Name = "mhmd", Email = "1513@gmail", Capcity = 200, Location = "alex", Price = 1500000 }
             };
 
         }
@@ -83,13 +83,18 @@ namespace WebApplication2.Model
                 employee.Photos = changemployee.Photos;
                 employee.Price = changemployee.Price;
                 employee.Location = changemployee.Location;
-                employee.Capacity = changemployee.Capacity;
+                employee.Capcity = changemployee.Capcity;
             }
 
             return employee;
         }
 
         public Employee Update(Employee changemployee)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Employee>> Search(string Location, float Capapcity)
         {
             throw new NotImplementedException();
         }

@@ -1,0 +1,31 @@
+﻿<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <Script src="~/lib/jquery/jquery.js"></Script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+</head>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Error";
+}
+
+
+@{
+    Layout = "~/views/home/shared/_Layout.cshtml";
+}
+<br />
+<br />
+@if (ViewBag.ErrorTitle == null)
+{
+    <h3>An error occured while proccessing your request</h3>
+    <h5>Please contact us on Ajjj@gmial.com</h5>
+}
+else
+{
+    <h1 class="text-danger">@ViewBag.ErrorTtile</h1>
+    <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
+}

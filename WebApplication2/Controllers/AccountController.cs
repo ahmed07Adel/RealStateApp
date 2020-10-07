@@ -41,13 +41,13 @@ namespace WebApplication2.Controllers
             return View();
 
         }
-      [HttpPost]
-       [AllowAnonymous]
+        [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUsers { UserName = model.Email, Email = model.Email, City = model.City };
+                var user = new AppUsers { UserName = model.Email, Email = model.Email };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -97,6 +97,8 @@ namespace WebApplication2.Controllers
             }
             return View(model);
         }
+      
+
         [AcceptVerbs("post", "get")]
         [AllowAnonymous]
         public async Task<IActionResult> IsEmailInUse(string email)

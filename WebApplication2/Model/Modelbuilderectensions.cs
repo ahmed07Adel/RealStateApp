@@ -18,7 +18,7 @@ namespace WebApplication2.Model
                     Email = "marko@gmail.com",
                     Price = 200000,
                     Location = "Mdint nasr",
-                    Capacity = 200
+                    Capcity = 200
                 },
                 new Employee
                 {
@@ -27,7 +27,7 @@ namespace WebApplication2.Model
                     Email = "12334@gmail.com",
                     Price = 200000,
                     Location = "Mdint nasr",
-                    Capacity = 200
+                    Capcity = 200
                 }
             );
         }
