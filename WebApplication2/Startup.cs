@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using WebApplication2.Hubs;
+using System.Security.Claims;
+using WebApplication2.Security;
 
 namespace WebApplication2
 {
@@ -30,6 +32,12 @@ namespace WebApplication2
             _config = config;
 
         }
+
+        //private bool AuthorizeAccess(AuthorizationHandlerContext context)
+        //{
+        //    return context.User.IsInRole("admin") && context.User.HasClaim(claim => claim.Type == "EditRole" && claim.Value == "true") ||
+        //        context.User.IsInRole("admin1");
+        //}
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -58,7 +66,30 @@ namespace WebApplication2
             var x = _config.GetConnectionString("employeedbconnection");
             services.AddDbContext<Appdbcontext>(
                 options => options.UseSqlServer(_config.GetConnectionString("employeedbconnection")));
-           
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
+
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("DeleteRole"));
+                options.AddPolicy("EditRolePolicy", policy => policy.AddRequirements(new ManageAdminRolesAndClaimsRqeuire()));
+
+
+
+
+
+
+
+
+                options.AddPolicy("AdminRolePolicy", policy => policy.RequireRole("admin"));
+
+
+                                                                     
+            });
 
         }
 
@@ -72,7 +103,9 @@ namespace WebApplication2
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseAuthentication();
+            app.UseAuthorization();
             //app.UseSignalR(routes =>
             //{
             //    routes.MapHub<ChatHub>("/Chat/Chat");
@@ -89,4 +122,4 @@ namespace WebApplication2
         
         }
     }
-
+    
