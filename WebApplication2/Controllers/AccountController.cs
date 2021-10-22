@@ -87,7 +87,6 @@ namespace WebApplication2.Controllers
                     if (!string.IsNullOrEmpty(ReturnUrl))
                     {
                         return LocalRedirect(ReturnUrl);
-
                     }
                     else
                     {

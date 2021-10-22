@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebApplication2.controller
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly IEmployeeRepository _employeeRespository;
@@ -177,12 +177,6 @@ namespace WebApplication2.controller
             return RedirectToAction("Property");
         }
 
-
-
-
-
-
-
         [HttpPost]
         [AllowAnonymous]     
         public IActionResult Create(EmployeeCreateViewModel model)
@@ -203,15 +197,13 @@ namespace WebApplication2.controller
                 } 
                 Employee newEmployee = new Employee
                 {
+                    
                     Name = model.Name,
                     Email =model.Email,
                     Photos =UniqueFile,
                     Capcity = model.Capacity,
                     Location = model.Location,
                     Price = model.Price
-
-
-
                 };
                 _employeeRespository.Add(newEmployee); //saved to data base table
                 return RedirectToAction(nameof(Property), new {id = newEmployee.Id});
